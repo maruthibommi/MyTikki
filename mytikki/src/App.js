@@ -1,24 +1,36 @@
 import logo from './logo.svg';
 import './App.css';
+import '../src/Components/BagWeight.component.js'
+import BagWeight from '../src/Components/BagWeight.component.js';
+import data from '../src/Components/Data.json'
+import React, { useState } from "react";
 
 function App() {
+
+  const [customers, setCustomers] = useState(data);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className='app-container'>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Number</th>
+              <th>Total Bags</th>
+            </tr>
+          </thead>
+          <tbody>
+            {customers.map((customer) =>(
+              <tr>
+                <td>{customer.name}</td>
+                <td>{customer.number}</td>
+                <td>{customer.totalBags}</td>
+              </tr>
+            ))}
+            
+          </tbody>
+        </table>
+      </div>
   );
 }
 

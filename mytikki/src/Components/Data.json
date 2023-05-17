@@ -1,0 +1,24 @@
+[
+    {
+        "name"      :   "yagna",
+        "number"    :   "9666836695",
+        "totalBags":   "9" ,
+        "category"  :   "taal",
+        "bagweights":  [50,48.5,63.5,67.8,45.6,55,45.6,45.0,46.0],
+        "Netweight": 88.5,
+        "Grossweight": 98.5,
+        "rateperbag": 1,
+        "totalcost": 100.5
+    },
+    {
+        "name"      :   "yagna",
+        "number"    :   "9666836695",
+        "totalBags":   "90" ,
+        "category"  :   "taal",
+        "bagweights":  [50,48.5,63.5,67.8,45.6,55,45.6,45.0,46.0],
+        "Netweight": 88.5,
+        "Grossweight": 98.5,
+        "rateperbag": 1,
+        "totalcost": 100.5
+    }
+]
