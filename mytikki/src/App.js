@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import '../src/Components/BagWeight.component.js'
 import BagWeight from '../src/Components/BagWeight.component.js';
@@ -7,27 +6,17 @@ import React, { useState } from "react";
 
 function App() {
 
-  const [customers, setCustomers] = useState(data);
+  
 
   return (
-      <div className='app-container'>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Number</th>
-              <th>Total Bags</th>
-            </tr>
-          </thead>
-          <tbody>
-            {customers.map((customer) =>(
-              <tr>
-                
-              </tr>
-            ))}
-            
-          </tbody>
-        </table>
+      <div>
+        <form>
+          <input type = "text" placeholder ="Name"/>
+          <input type = "text" placeholder ="mobile number"/>
+          <input type = "number" placeholder ="Cost per bag"/>
+          <input type= "text" placeholder="Category"/>
+        </form>
+        <BagWeight/>
       </div>
   );
 }
