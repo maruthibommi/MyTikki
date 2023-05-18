@@ -22,9 +22,7 @@ function App() {
           <tbody>
             {customers.map((customer) =>(
               <tr>
-                <td>{customer.name}</td>
-                <td>{customer.number}</td>
-                <td>{customer.totalBags}</td>
+                
               </tr>
             ))}
             
