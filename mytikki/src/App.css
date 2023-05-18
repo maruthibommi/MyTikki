@@ -1,41 +1,71 @@
-.app-container {
+.container {
+  position: relative;
+}
+
+.bag-count {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-weight: bold;
+}
+
+.form__group {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 1rem;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
+.form__input,
+.form__label {
+  background-color: #f2f2f2;
+  padding: 10px;
+  height: 40px;
+  box-sizing: border-box;
 }
 
-th,
-td {
-  border: 1px solid #ffffff;
-  text-align: left;
-  padding: 8px;
-  font-size: 32px;
+.form__input {
+  width: 250px;
+  margin-bottom: 10px;
+  border: none;
 }
 
-th {
-  background-color: rgb(117, 201, 250);
+.form__label {
+  font-weight: bold;
 }
 
-td {
-  background-color: rgb(205, 235, 253);
-}
-
-form {
+.bag-weights {
   display: flex;
-  gap: 5px;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  max-height: 200px;
 }
 
-form td:last-child {
+.bag-weights__container {
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+  max-height: 200px;
 }
 
-form * {
-  font-size: 28px;
+.bag-weight {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.bag-weight__input {
+  background-color: #f2f2f2;
+  padding: 10px;
+  margin-right: 10px;
+  height: 40px;
+  border: none;
+}
+
+.bag-weight__button {
+  background-color: #f2f2f2;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
 }

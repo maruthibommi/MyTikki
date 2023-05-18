@@ -10,13 +10,8 @@ function App() {
 
   return (
       <div>
-        <form>
-          <input type = "text" placeholder ="Name"/>
-          <input type = "text" placeholder ="mobile number"/>
-          <input type = "number" placeholder ="Cost per bag"/>
-          <input type= "text" placeholder="Category"/>
-        </form>
         <BagWeight/>
+       
       </div>
   );
 }
