@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function BagWeight() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     mobileNumber: "",
-    costPerBag: "",
+    costPerKG: "", // Updated state variable name
     category: "",
     bagWeights: [],
   });
@@ -28,7 +31,7 @@ function BagWeight() {
     if (
       formData.name === "" ||
       formData.mobileNumber === "" ||
-      formData.costPerBag === "" ||
+      formData.costPerKG === "" || // Updated form field name
       formData.category === "" ||
       formData.bagWeight === ""
     ) {
@@ -42,14 +45,6 @@ function BagWeight() {
     }
 
     const updatedBagWeights = [...formData.bagWeights, formData.bagWeight];
-    const jsonData = {
-      name: formData.name,
-      mobileNumber: formData.mobileNumber,
-      costPerBag: formData.costPerBag,
-      category: formData.category,
-      bagWeights: updatedBagWeights,
-    };
-
     setFormData({
       ...formData,
       bagWeight: "",
@@ -57,9 +52,9 @@ function BagWeight() {
     });
 
     const bagWeightsContainer = document.getElementById("bag-weights-container");
-  if (bagWeightsContainer) {
-    bagWeightsContainer.scrollTop = bagWeightsContainer.scrollHeight;
-  }
+    if (bagWeightsContainer) {
+      bagWeightsContainer.scrollTop = bagWeightsContainer.scrollHeight;
+    }
   };
 
   const handleEditWeight = (index, value) => {
@@ -93,12 +88,25 @@ function BagWeight() {
       0
     );
 
-    alert(`Total weight: ${totalWeight}`);
+    const netWeight = totalWeight;
+    const netAmount = totalWeight * Number(formData.costPerKG); // Updated variable name
+
+    const dataToPass = {
+      name: formData.name,
+      mobileNumber: formData.mobileNumber,
+      costPerKG: formData.costPerKG, // Updated variable name
+      category: formData.category,
+      bagWeights: formData.bagWeights,
+      netWeight: netWeight,
+      netAmount: netAmount,
+    };
+
+    navigate("/next-page", { state: dataToPass });
   };
 
   return (
     <div className="container">
-      <div className="bag-count">{formData.bagWeights.length}</div>
+      <div className="bag-count">Bag Count: {formData.bagWeights.length}</div>
       <div className="form__group">
         <form>
           <input
@@ -131,21 +139,22 @@ function BagWeight() {
             name="costPerBag"
             value={formData.costPerBag}
             onChange={handleInputChange}
-            placeholder="Cost per Kg"
+            placeholder="Cost per Bag"
           />
           <label htmlFor="costPerBag" className="form__label">
             Rate
           </label>
           <br />
           <select
-              className="form__input"
-              name="category"
-              value={formData.category}
-              onChange={handleInputChange}>
-              <option value="">Select Category</option>
-              <option value="Red">Red</option>
-              <option value="Taal">Taal</option>
-        </select>
+            className="form__input"
+            name="category"
+            value={formData.category}
+            onChange={handleInputChange}
+          >
+            <option value="">Select Category</option>
+            <option value="Taal">Taal</option>
+            <option value="Lot">Lot</option>
+          </select>
           <label htmlFor="category" className="form__label">
             Category
           </label>
@@ -165,7 +174,7 @@ function BagWeight() {
         </form>
       </div>
       <div className="bag-weights">
-        <div className="bag-weights__container" id = "bag-weights-container">
+        <div className="bag-weights__container" id="bag-weights-container">
           {formData.bagWeights.map((weight, index) => (
             <div className="bag-weight" key={index}>
               <input
@@ -187,9 +196,11 @@ function BagWeight() {
         </div>
       </div>
       {formData.bagWeights.length > 0 && (
-        <button className="submit-button" onClick={handleSubmit}>
-          Submit
-        </button>
+        <div className="submit-button-container">
+          <button className="submit-button" onClick={handleSubmit}>
+            Submit
+          </button>
+        </div>
       )}
     </div>
   );
