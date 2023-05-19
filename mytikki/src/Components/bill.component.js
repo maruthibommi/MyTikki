@@ -1,5 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import NetAmount from "./NetAmount.component";
 
 function Bill() {
   const location = useLocation();
@@ -17,8 +18,7 @@ function Bill() {
     category,
     bagWeights,
     totalBags,
-    grossWeight,
-    grossAmount
+    grossWeight
   } = state;
 
 
@@ -31,8 +31,9 @@ function Bill() {
     } else if (weight > 45 && weight <= 50) {
       netWeight -= 1.5;
     }
+    
   });
-
+  const grossAmount = netWeight * costPerKG;
   return (
     <div className="container">
       <h2>Bill Details</h2>
@@ -52,7 +53,7 @@ function Bill() {
           </tr>
           <tr>
             <td>
-              <strong>Cost per Bag:</strong>
+              <strong>Cost per Kg:</strong>
             </td>
             <td>{costPerKG}</td>
           </tr>
@@ -112,20 +113,23 @@ function Bill() {
             </td>
             <td>{grossWeight}</td>
           </tr>
-          <tr>
-            <td>
-              <strong>Gross Amount:</strong>
-            </td>
-            <td>{grossAmount}</td>
-          </tr>
+
           <tr>
             <td>
               <strong>Net Weight:</strong>
             </td>
             <td>{netWeight}</td>
           </tr>
+          <tr>
+            <td>
+              <strong>Gross Amount:</strong>
+            </td>
+            <td>{grossAmount}</td>
+          </tr>
         </tbody>
       </table>
+      <NetAmount netWeight={netWeight} grossAmount={grossAmount} costPerKG={costPerKG} totalBags={totalBags}/>
+    
     </div>
   );
 }

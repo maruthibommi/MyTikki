@@ -90,7 +90,6 @@ function BagWeight() {
     const totalBags = formData.bagWeights.length;
   
     const grossWeight = totalWeight;
-    const grossAmount = totalWeight * Number(formData.costPerKG);
   
     const dataToPass = {
       name: formData.name,
@@ -99,8 +98,7 @@ function BagWeight() {
       category: formData.category,
       bagWeights: formData.bagWeights,
       totalBags: totalBags, // Add totalBags to the data
-      grossWeight: grossWeight,
-      grossAmount: grossAmount,
+      grossWeight: grossWeight
     };
   
     navigate("/bill", { state: dataToPass });
