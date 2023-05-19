@@ -1,9 +1,8 @@
 import './App.css';
 import '../src/Components/BagWeight.component.js'
 import BagWeight from '../src/Components/BagWeight.component.js';
-import React, { useState } from "react";
 
-import { BrowserRouter as Router, Route, Switch, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Bill from "./Components//bill.component";
 

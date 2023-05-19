@@ -7,7 +7,7 @@ function BagWeight() {
   const [formData, setFormData] = useState({
     name: "",
     mobileNumber: "",
-    costPerKG: "", // Updated state variable name
+    costPerKG: "",
     category: "",
     bagWeights: [],
   });
@@ -31,7 +31,7 @@ function BagWeight() {
     if (
       formData.name === "" ||
       formData.mobileNumber === "" ||
-      formData.costPerKG === "" || // Updated form field name
+      formData.costPerKG === "" ||
       formData.category === "" ||
       formData.bagWeight === ""
     ) {
@@ -76,33 +76,36 @@ function BagWeight() {
       bagWeights: updatedBagWeights,
     });
   };
-
   const handleSubmit = () => {
     if (formData.bagWeights.length === 0) {
       alert("Please add at least one bag weight.");
       return;
     }
-
+  
     const totalWeight = formData.bagWeights.reduce(
       (accumulator, currentValue) => accumulator + Number(currentValue),
       0
     );
-
-    const netWeight = totalWeight;
-    const netAmount = totalWeight * Number(formData.costPerKG); // Updated variable name
-
+  
+    const totalBags = formData.bagWeights.length;
+  
+    const grossWeight = totalWeight;
+    const grossAmount = totalWeight * Number(formData.costPerKG);
+  
     const dataToPass = {
       name: formData.name,
       mobileNumber: formData.mobileNumber,
-      costPerKG: formData.costPerKG, // Updated variable name
+      costPerKG: formData.costPerKG,
       category: formData.category,
       bagWeights: formData.bagWeights,
-      netWeight: netWeight,
-      netAmount: netAmount,
+      totalBags: totalBags, // Add totalBags to the data
+      grossWeight: grossWeight,
+      grossAmount: grossAmount,
     };
-
-    navigate("/next-page", { state: dataToPass });
+  
+    navigate("/bill", { state: dataToPass });
   };
+  
 
   return (
     <div className="container">
@@ -136,12 +139,12 @@ function BagWeight() {
           <input
             className="form__input"
             type="number"
-            name="costPerBag"
-            value={formData.costPerBag}
+            name="costPerKG"
+            value={formData.costPerKG}
             onChange={handleInputChange}
-            placeholder="Cost per Bag"
+            placeholder="Cost per KG"
           />
-          <label htmlFor="costPerBag" className="form__label">
+          <label htmlFor="costPerKG" className="form__label">
             Rate
           </label>
           <br />
