@@ -107,7 +107,7 @@ function BagWeight() {
 
   return (
     <div className="container">
-      <div className="bag-count">Bag Count: {formData.bagWeights.length}</div>
+      <div className="bag-count">{formData.bagWeights.length}</div>
       <div className="form__group">
         <form>
           <input

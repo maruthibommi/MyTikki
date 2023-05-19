@@ -24,12 +24,12 @@ function Bill() {
 
 
   // Calculate net weight
-  let netWeight = grossWeight;
+  let netWeight = grossWeight-totalBags;
   bagWeights.forEach((weight) => {
     if (weight > 50) {
-      netWeight -= 2;
+      netWeight -= 1;
     } else if (weight > 45 && weight <= 50) {
-      netWeight -= 1.5;
+      netWeight -= 0.5;
     }
     
   });

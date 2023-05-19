@@ -36,7 +36,7 @@ function NetAmount({ netWeight, grossAmount, costPerKG, totalBags }) {
 
   const calculateTotalCost = (cost, totalBags, isPerBag) => {
     const multiplier = isPerBag ? totalBags : 1;
-    return cost * totalBags * multiplier;
+    return cost * multiplier;
   };
 
   const calculateNetAmount = () => {
