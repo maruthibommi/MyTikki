@@ -131,7 +131,7 @@ function BagWeight() {
             name="costPerBag"
             value={formData.costPerBag}
             onChange={handleInputChange}
-            placeholder="Cost per Bag"
+            placeholder="Cost per Kg"
           />
           <label htmlFor="costPerBag" className="form__label">
             Rate
@@ -143,8 +143,8 @@ function BagWeight() {
               value={formData.category}
               onChange={handleInputChange}>
               <option value="">Select Category</option>
+              <option value="Red">Red</option>
               <option value="Taal">Taal</option>
-              <option value="Lot">Lot</option>
         </select>
           <label htmlFor="category" className="form__label">
             Category
