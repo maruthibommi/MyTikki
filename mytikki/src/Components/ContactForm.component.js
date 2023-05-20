@@ -29,48 +29,7 @@ const ContactForm = () => {
       name,
       phoneNumber,
       village,
-      varieties: bagWeightData.map((data) => data.variety),
-      weights: bagWeightData.map((data) => data.bagWeights),
-      grossWeight: bagWeightData.reduce(
-        (total, data) => total + calculateGrossWeight(data.bagWeights),
-        0
-      ),
-      netWeight: bagWeightData.reduce(
-        (total, data) =>
-          total + calculateNetWeight(calculateGrossWeight(data.bagWeights), data.bagWeights),
-        0
-      ),
-      grossAmount: bagWeightData.reduce(
-        (total, data) =>
-          total +
-          calculateGrossAmount(
-            calculateNetWeight(calculateGrossWeight(data.bagWeights), data.bagWeights),
-            data.ratePerKG
-          ),
-        0
-      ),
-      totalBags: bagWeightData.reduce(
-        (total, data) => total + calculateTotalBags(data.bagWeights),
-        0
-      ),
-      costPerBag: bagWeightData[0].ratePerKG,
-      totalBagsCost: bagWeightData.reduce(
-        (total, data) =>
-          total + calculateTotalBagsCost(calculateTotalBags(data.bagWeights)),
-        0
-      ),
-      netAmount: bagWeightData.reduce(
-        (total, data) =>
-          total +
-          calculateNetAmount(
-            calculateGrossAmount(
-              calculateNetWeight(calculateGrossWeight(data.bagWeights), data.bagWeights),
-              data.ratePerKG
-            ),
-            calculateTotalBags(data.bagWeights)
-          ),
-        0
-      ),
+      bagWeightData,
     };
 
     // Pass the data to the next page or perform any desired action
@@ -79,38 +38,6 @@ const ContactForm = () => {
 
   const handleBagWeightData = (data) => {
     setBagWeightData(data);
-  };
-
-  // Calculation functions (same as before)
-  const calculateGrossWeight = (bagWeights) => {
-    return bagWeights.reduce((acc, curr) => acc + curr, 0);
-  };
-
-  const calculateNetWeight = (grossWeight, bagWeights) => {
-    const bagsGreaterThan45 = bagWeights.filter((bagWeight) => bagWeight > 45);
-    const bagsGreaterThan50 = bagWeights.filter((bagWeight) => bagWeight > 50);
-    const netWeight =
-      grossWeight -
-      bagWeights.length -
-      0.5 * bagsGreaterThan45.length -
-      0.5 * bagsGreaterThan50.length;
-    return Number(netWeight.toFixed(2));
-  };
-
-  const calculateGrossAmount = (netWeight, ratePerKG) => {
-    return Number((netWeight * ratePerKG).toFixed(2));
-  };
-
-  const calculateTotalBags = (bagWeights) => {
-    return bagWeights.length;
-  };
-
-  const calculateTotalBagsCost = (totalBags) => {
-    return Number((totalBags * bagWeightData[0].ratePerKG).toFixed(2));
-  };
-
-  const calculateNetAmount = (grossAmount, totalBags) => {
-    return Number((grossAmount + calculateTotalBagsCost(totalBags)).toFixed(2));
   };
 
   return (

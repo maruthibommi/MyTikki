@@ -3,10 +3,9 @@ import '../App.css';
 
 const BagWeight = ({ onBagWeightData }) => {
   const [rows, setRows] = useState([]);
-  const [perBagCost, setPerBagCost] = useState(0);
 
   const handleAddRow = () => {
-    setRows([...rows, { variety: '', bagWeights: [], ratePerKG: 0 }]);
+    setRows([...rows, { variety: '', bagWeights: [], ratePerKG: 0, perBagCost: 0 }]);
   };
 
   const handleRemoveRow = (index) => {
@@ -49,6 +48,16 @@ const BagWeight = ({ onBagWeightData }) => {
     setRows(updatedRows);
   };
 
+  const handlePerBagCostChange = (index, event) => {
+    const updatedRows = [...rows];
+    updatedRows[index].perBagCost = Number(event.target.value);
+    setRows(updatedRows);
+  };
+
+  useEffect(() => {
+    onBagWeightData(rows);
+  }, [rows, onBagWeightData]);
+
   const calculateTotalBags = (bagWeights) => {
     return bagWeights.length;
   };
@@ -72,20 +81,13 @@ const BagWeight = ({ onBagWeightData }) => {
     return Number(netWeight * ratePerKG).toFixed(2); // Display with two decimal places
   };
 
-
-  const calculateNetAmount = (grossAmount, totalBags) => {
-    return Number(grossAmount + perBagCost * totalBags).toFixed(2); // Display with two decimal places
+  const calculateNetAmount = (grossAmount, totalBags, perBagCost) => {
+    return Number(Number(grossAmount) + Number(perBagCost * totalBags)).toFixed(2); // Display with two decimal places
   };
 
-  const calculateTotalBagsCost = (totalBags) => {
+  const calculateTotalBagsCost = (totalBags, perBagCost) => {
     return Number(totalBags * perBagCost).toFixed(2); // Display with two decimal places
   };
-
-  useEffect(() => {
-    onBagWeightData(rows);
-  }, [rows, onBagWeightData]);
-
-  
 
   return (
     <div>
@@ -150,8 +152,8 @@ const BagWeight = ({ onBagWeightData }) => {
                 <td>
                   <input
                     type="number"
-                    value={perBagCost}
-                    onChange={(event) => setPerBagCost(Number(event.target.value))}
+                    value={row.perBagCost}
+                    onChange={(event) => handlePerBagCostChange(index, event)}
                   />
                 </td>
                 <td>
@@ -178,11 +180,15 @@ const BagWeight = ({ onBagWeightData }) => {
                       ),
                       row.ratePerKG
                     ),
-                    calculateTotalBags(row.bagWeights)
+                    calculateTotalBags(row.bagWeights),
+                    row.perBagCost
                   )}
                 </td>
                 <td>
-                  {calculateTotalBagsCost(calculateTotalBags(row.bagWeights))}
+                  {calculateTotalBagsCost(
+                    calculateTotalBags(row.bagWeights),
+                    row.perBagCost
+                  )}
                 </td>
                 <td>
                   <button type="button" onClick={() => handleRemoveRow(index)}>
