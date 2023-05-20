@@ -1,71 +1,55 @@
-.container {
-  position: relative;
+table {
+  border-collapse: collapse;
+  width: 100%;
 }
 
-.bag-count {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+th, td {
+  border: 1px solid black;
+  padding: 8px;
+}
+
+th {
+  background-color: rgb(250, 244, 166);
+
+}
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+label {
   font-weight: bold;
 }
 
-.form__group {
+.highlight-label {
+  background-color: yellow;
+}
+
+.input-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-}
 
-.form__input,
-.form__label {
-  background-color: #f2f2f2;
-  padding: 10px;
-  height: 40px;
-  box-sizing: border-box;
-}
-
-.form__input {
-  width: 250px;
   margin-bottom: 10px;
-  border: none;
 }
 
-.form__label {
+.form-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+}
+
+.label {
   font-weight: bold;
 }
 
-.bag-weights {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow-y: auto;
-  max-height: 200px;
+
+
+.table-container table td.decimal {
+  padding-right: 10px; /* Adjust padding as needed */
 }
 
-.bag-weights__container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-height: 200px;
-}
-
-.bag-weight {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.bag-weight__input {
-  background-color: #f2f2f2;
-  padding: 10px;
-  margin-right: 10px;
-  height: 40px;
-  border: none;
-}
-
-.bag-weight__button {
-  background-color: #f2f2f2;
-  padding: 10px 15px;
-  border: none;
-  cursor: pointer;
-}

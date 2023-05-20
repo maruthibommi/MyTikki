@@ -1,210 +1,204 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import '../App.css';
 
-function BagWeight() {
-  const navigate = useNavigate();
+const BagWeight = ({ onBagWeightData }) => {
+  const [rows, setRows] = useState([]);
+  const [perBagCost, setPerBagCost] = useState(0);
 
-  const [formData, setFormData] = useState({
-    name: "",
-    mobileNumber: "",
-    costPerKG: "",
-    category: "",
-    bagWeights: [],
-  });
-
-  const handleInputChange = (event) => {
-    if (event.target.name === "bagWeight") {
-      setFormData({
-        ...formData,
-        [event.target.name]: event.target.value,
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [event.target.name]: event.target.value,
-        bagWeights: [...formData.bagWeights],
-      });
-    }
+  const handleAddRow = () => {
+    setRows([...rows, { variety: '', bagWeights: [], ratePerKG: 0 }]);
   };
 
-  const handleAddWeight = () => {
-    if (
-      formData.name === "" ||
-      formData.mobileNumber === "" ||
-      formData.costPerKG === "" ||
-      formData.category === "" ||
-      formData.bagWeight === ""
-    ) {
-      alert("Please fill in all the fields.");
-      return;
-    }
-
-    if (formData.mobileNumber.length < 10) {
-      alert("Please enter at least 10 digits for the phone number.");
-      return;
-    }
-
-    const updatedBagWeights = [...formData.bagWeights, formData.bagWeight];
-    setFormData({
-      ...formData,
-      bagWeight: "",
-      bagWeights: updatedBagWeights,
-    });
-
-    const bagWeightsContainer = document.getElementById("bag-weights-container");
-    if (bagWeightsContainer) {
-      bagWeightsContainer.scrollTop = bagWeightsContainer.scrollHeight;
-    }
+  const handleRemoveRow = (index) => {
+    const updatedRows = [...rows];
+    updatedRows.splice(index, 1);
+    setRows(updatedRows);
   };
 
-  const handleEditWeight = (index, value) => {
-    const updatedBagWeights = [...formData.bagWeights];
-    updatedBagWeights[index] = value;
+  const handleVarietyChange = (index, event) => {
+    const updatedRows = [...rows];
+    updatedRows[index].variety = event.target.value;
+    setRows(updatedRows);
+  };
 
-    setFormData({
-      ...formData,
-      bagWeights: updatedBagWeights,
+  const handleBagWeightChange = (index, bagWeightIndex, event) => {
+    const updatedRows = [...rows];
+    updatedRows[index].bagWeights[bagWeightIndex] = Number(event.target.value);
+    setRows(updatedRows);
+  };
+
+  const handleAddBagWeight = (index) => {
+    setRows((prevRows) => {
+      const updatedRows = [...prevRows];
+      updatedRows[index].bagWeights.push(0);
+      return updatedRows;
     });
   };
 
-  const handleDeleteWeight = (index) => {
-    const updatedBagWeights = [...formData.bagWeights];
-    updatedBagWeights.splice(index, 1);
-
-    setFormData({
-      ...formData,
-      bagWeights: updatedBagWeights,
+  const handleRemoveBagWeight = (index, bagWeightIndex) => {
+    setRows((prevRows) => {
+      const updatedRows = [...prevRows];
+      updatedRows[index].bagWeights.splice(bagWeightIndex, 1);
+      return updatedRows;
     });
   };
-  const handleSubmit = () => {
-    if (formData.bagWeights.length === 0) {
-      alert("Please add at least one bag weight.");
-      return;
-    }
-  
-    const totalWeight = formData.bagWeights.reduce(
-      (accumulator, currentValue) => accumulator + Number(currentValue),
-      0
-    );
-  
-    const totalBags = formData.bagWeights.length;
-  
-    const grossWeight = totalWeight;
-  
-    const dataToPass = {
-      name: formData.name,
-      mobileNumber: formData.mobileNumber,
-      costPerKG: formData.costPerKG,
-      category: formData.category,
-      bagWeights: formData.bagWeights,
-      totalBags: totalBags, // Add totalBags to the data
-      grossWeight: grossWeight
-    };
-  
-    navigate("/bill", { state: dataToPass });
+
+  const handleRateChange = (index, event) => {
+    const updatedRows = [...rows];
+    updatedRows[index].ratePerKG = Number(event.target.value);
+    setRows(updatedRows);
   };
+
+  const calculateTotalBags = (bagWeights) => {
+    return bagWeights.length;
+  };
+
+  const calculateGrossWeight = (bagWeights) => {
+    return bagWeights.reduce((acc, curr) => acc + curr, 0);
+  };
+
+  const calculateNetWeight = (grossWeight, bagWeights) => {
+    const bagsGreaterThan45 = bagWeights.filter((bagWeight) => bagWeight > 45);
+    const bagsGreaterThan50 = bagWeights.filter((bagWeight) => bagWeight > 50);
+    const netWeight =
+      grossWeight -
+      bagWeights.length -
+      0.5 * bagsGreaterThan45.length -
+      0.5 * bagsGreaterThan50.length;
+    return Number(netWeight).toFixed(2); // Display with two decimal places
+  };
+
+  const calculateGrossAmount = (netWeight, ratePerKG) => {
+    return Number(netWeight * ratePerKG).toFixed(2); // Display with two decimal places
+  };
+
+
+  const calculateNetAmount = (grossAmount, totalBags) => {
+    return Number(grossAmount + perBagCost * totalBags).toFixed(2); // Display with two decimal places
+  };
+
+  const calculateTotalBagsCost = (totalBags) => {
+    return Number(totalBags * perBagCost).toFixed(2); // Display with two decimal places
+  };
+
+  useEffect(() => {
+    onBagWeightData(rows);
+  }, [rows, onBagWeightData]);
+
   
 
   return (
-    <div className="container">
-      <div className="bag-count">{formData.bagWeights.length}</div>
-      <div className="form__group">
-        <form>
-          <input
-            className="form__input"
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleInputChange}
-            placeholder="Name"
-          />
-          <label htmlFor="name" className="form__label">
-            Name
-          </label>
-          <br />
-          <input
-            className="form__input"
-            type="number"
-            name="mobileNumber"
-            value={formData.mobileNumber}
-            onChange={handleInputChange}
-            placeholder="Mobile Number"
-          />
-          <label htmlFor="mobileNumber" className="form__label">
-            Number
-          </label>
-          <br />
-          <input
-            className="form__input"
-            type="number"
-            name="costPerKG"
-            value={formData.costPerKG}
-            onChange={handleInputChange}
-            placeholder="Cost per KG"
-          />
-          <label htmlFor="costPerKG" className="form__label">
-            Rate
-          </label>
-          <br />
-          <select
-            className="form__input"
-            name="category"
-            value={formData.category}
-            onChange={handleInputChange}
-          >
-            <option value="">Select Category</option>
-            <option value="Taal">Taal</option>
-            <option value="Lot">Lot</option>
-          </select>
-          <label htmlFor="category" className="form__label">
-            Category
-          </label>
-          <br />
-          <input
-            className="form__input"
-            type="number"
-            name="bagWeight"
-            value={formData.bagWeight}
-            onChange={handleInputChange}
-            placeholder="Enter Bag Weight"
-          />
-          <label htmlFor="bagWeight" className="form__label">
-            Bag Weight
-          </label>
-          <input type="button" value="Add Weight" onClick={handleAddWeight} />
-        </form>
+    <div>
+      <div className="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Variety</th>
+              <th>Rate per KG</th>
+              <th>Bag Weight</th>
+              <th>Total Bags</th>
+              <th>Gross Weight</th>
+              <th>Per Bag Cost</th>
+              <th>Net Weight</th>
+              <th>Gross Amount</th>
+              <th>Net Amount</th>
+              <th>Total Bags Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row, index) => (
+              <tr key={index}>
+                <td>
+                  <select value={row.variety} onChange={(event) => handleVarietyChange(index, event)}>
+                    <option value="Select a Variety">Select a Variety</option>
+                    <option value="Red">Red</option>
+                    <option value="Taal">Taal</option>
+                    <option value="Teja">Teja</option>
+                  </select>
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    value={row.ratePerKG}
+                    onChange={(event) => handleRateChange(index, event)}
+                  />
+                </td>
+                <td>
+                  {row.bagWeights.map((bagWeight, bagWeightIndex) => (
+                    <div key={bagWeightIndex}>
+                      <input
+                        type="number"
+                        value={bagWeight}
+                        onChange={(event) => handleBagWeightChange(index, bagWeightIndex, event)}
+                      />
+                      <input type="checkbox" checked={bagWeight > 45} disabled />
+                      <input type="checkbox" checked={bagWeight > 50} disabled />
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveBagWeight(index, bagWeightIndex)}
+                      >
+                        X
+                      </button>
+                    </div>
+                  ))}
+                  <button type="button" onClick={() => handleAddBagWeight(index)}>
+                    Add Bag Weight
+                  </button>
+                </td>
+                <td>{calculateTotalBags(row.bagWeights)}</td>
+                <td>{calculateGrossWeight(row.bagWeights)}</td>
+                <td>
+                  <input
+                    type="number"
+                    value={perBagCost}
+                    onChange={(event) => setPerBagCost(Number(event.target.value))}
+                  />
+                </td>
+                <td>
+                  {calculateNetWeight(
+                    calculateGrossWeight(row.bagWeights),
+                    row.bagWeights
+                  )}
+                </td>
+                <td>
+                  {calculateGrossAmount(
+                    calculateNetWeight(
+                      calculateGrossWeight(row.bagWeights),
+                      row.bagWeights
+                    ),
+                    row.ratePerKG
+                  )}
+                </td>
+                <td>
+                  {calculateNetAmount(
+                    calculateGrossAmount(
+                      calculateNetWeight(
+                        calculateGrossWeight(row.bagWeights),
+                        row.bagWeights
+                      ),
+                      row.ratePerKG
+                    ),
+                    calculateTotalBags(row.bagWeights)
+                  )}
+                </td>
+                <td>
+                  {calculateTotalBagsCost(calculateTotalBags(row.bagWeights))}
+                </td>
+                <td>
+                  <button type="button" onClick={() => handleRemoveRow(index)}>
+                    Remove Variety
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-      <div className="bag-weights">
-        <div className="bag-weights__container" id="bag-weights-container">
-          {formData.bagWeights.map((weight, index) => (
-            <div className="bag-weight" key={index}>
-              <input
-                className="bag-weight__input"
-                type="text"
-                value={weight}
-                onChange={(event) =>
-                  handleEditWeight(index, event.target.value)
-                }
-              />
-              <button
-                className="bag-weight__button"
-                onClick={() => handleDeleteWeight(index)}
-              >
-                Delete
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
-      {formData.bagWeights.length > 0 && (
-        <div className="submit-button-container">
-          <button className="submit-button" onClick={handleSubmit}>
-            Submit
-          </button>
-        </div>
-      )}
+      <button type="button" onClick={handleAddRow}>
+        Add Variety
+      </button>
     </div>
   );
-}
+};
 
 export default BagWeight;
