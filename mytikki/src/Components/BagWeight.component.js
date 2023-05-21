@@ -103,8 +103,9 @@ const BagWeight = ({ onBagWeightData }) => {
               <th>Per Bag Cost</th>
               <th>Net Weight</th>
               <th>Gross Amount</th>
-              <th>Net Amount</th>
               <th>Total Bags Cost</th>
+              <th>Net Amount</th>
+
             </tr>
           </thead>
           <tbody>
@@ -172,6 +173,12 @@ const BagWeight = ({ onBagWeightData }) => {
                   )}
                 </td>
                 <td>
+                  {calculateTotalBagsCost(
+                    calculateTotalBags(row.bagWeights),
+                    row.perBagCost
+                  )}
+                </td>
+                <td>
                   {calculateNetAmount(
                     calculateGrossAmount(
                       calculateNetWeight(
@@ -184,12 +191,7 @@ const BagWeight = ({ onBagWeightData }) => {
                     row.perBagCost
                   )}
                 </td>
-                <td>
-                  {calculateTotalBagsCost(
-                    calculateTotalBags(row.bagWeights),
-                    row.perBagCost
-                  )}
-                </td>
+                
                 <td>
                   <button type="button" onClick={() => handleRemoveRow(index)}>
                     Remove Variety
