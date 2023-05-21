@@ -1,55 +1,195 @@
-table {
-  border-collapse: collapse;
-  width: 100%;
+/* App.css */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-th, td {
-  border: 1px solid black;
-  padding: 8px;
-}
-
-th {
-  background-color: rgb(250, 244, 166);
-
-}
-.table-container {
-  overflow-x: auto;
-}
-
-table {
-  border-collapse: collapse;
-  width: 100%;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-label {
-  font-weight: bold;
-}
-
-.highlight-label {
-  background-color: yellow;
-}
-
-.input-container {
-  display: flex;
-
+h1 {
+  font-size: 24px;
   margin-bottom: 10px;
 }
 
-.form-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 10px;
+h2 {
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
-.label {
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+
+thead {
+  background-color: #f2f2f2;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+input[type='number'],
+input[type='text'],
+select {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+button {
+  padding: 5px 10px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+
+button:hover {
+  background-color: #45a049;
+}
+
+.checkbox-label {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.checkbox-label input {
+  vertical-align: middle;
+  margin-right: 3px;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.error-message {
+  color: #ff0000;
+  margin-top: 10px;
+}
+
+/* Additional Styles */
+
+/* ContactForm.component.js */
+.contact-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.contact-form label {
+  display: block;
+  margin-bottom: 5px;
   font-weight: bold;
 }
 
-
-
-.table-container table td.decimal {
-  padding-right: 10px; /* Adjust padding as needed */
+.contact-form input[type='text'],
+.contact-form input[type='number'] {
+  width: 100%;
+  margin-bottom: 10px;
 }
 
+/* Bill.component.js */
+.bill-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.bill-container p {
+  margin-bottom: 10px;
+}
+
+.bill-container .table-container {
+  overflow-x: auto;
+}
+
+.bill-container table {
+  min-width: 100%;
+  white-space: nowrap;
+}
+
+.bill-container table th,
+.bill-container table td {
+  white-space: normal;
+}
+
+.bill-container .table-container table {
+  margin-bottom: 0;
+}
+
+.bill-container .action-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.bill-container .action-buttons button {
+  margin-left: 10px;
+}
+
+.bill-container .total-amount {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.button-container button {
+  padding: 10px 20px; /* Adjust the padding values as needed */
+  margin-right: 10px; /* Adjust the margin as needed */
+}
+
+/* Styles for all drop-down menus */
+select {
+  /* Styles for the drop-down arrow */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-repeat: no-repeat;
+  background-position: right center;
+  padding-right: 20px; /* Adjust the padding as needed */
+
+  /* Styles for the drop-down box */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+  width: 200px; /* Adjust the width as needed */
+
+  /* Styles for when the drop-down is open */
+  &:focus {
+    outline: none;
+    border-color: #66afe9;
+    box-shadow: 0 0 5px rgba(102, 175, 233, 0.6);
+  }
+
+  /* Styles for the options within the drop-down */
+
+}
+
+button {
+  /* Add different amounts of space on each side of the button */
+  margin-top: 10px;
+  margin-right: 20px;
+  margin-bottom: 30px;
+  margin-left: 40px;
+}

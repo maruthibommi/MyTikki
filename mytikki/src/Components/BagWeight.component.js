@@ -202,7 +202,7 @@ const BagWeight = ({ onBagWeightData }) => {
           </tbody>
         </table>
       </div>
-      <button type="button" onClick={handleAddRow}>
+      <button className="button-container button" type="button" onClick={handleAddRow}>
         Add Variety
       </button>
     </div>
