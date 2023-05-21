@@ -157,6 +157,72 @@ const Bill = () => {
     setDeductions(updatedDeductions);
   };
 
+  const handleSubmit = () => {
+    const bagDetails = formData.bagWeightData.map((bagData) => {
+      const bagWeights = bagData.bagWeights;
+      const grossWeight = bagWeights.reduce((sum, weight) => sum + weight, 0);
+      const netWeight = calculateNetWeight(bagData);
+      const bagsCost = bagWeights.length * bagData.perBagCost;
+      const netAmount = bagData.ratePerKG * netWeight;
+      return {
+        Variety: bagData.variety,
+        'Rate PerKG': bagData.ratePerKG,
+        'Total Number Of Bags': bagData.bagWeights.length,
+        Weights: bagData.bagWeights,
+        'Gross Weight': Number(grossWeight).toFixed(2),
+        'Net Weight': Number(netWeight).toFixed(2),
+        'Per Bag Cost': bagData.perBagCost,
+        'Total Bags Cost': Number(bagsCost).toFixed(2),
+        'Net Amount': Number(netAmount).toFixed(2)
+      };
+    });
+
+    const deductionsData = deductions.map((deduction) => {
+      const totalDeductionAmount =
+        deduction.deductionType === 'Commission'
+          ? (calculateGrossTotalAmount() * deduction.deductionAmount) / 100
+          : deduction.deductionAmount * (deduction.totalBags || 1);
+      return {
+        Type: deduction.deductionType,
+        PerBag: deduction.perBag,
+        'Deduction Amount': deduction.deductionAmount,
+        'Total Number of Bags': deduction.totalBags || 0,
+        'Total Deduction Amount': totalDeductionAmount
+      };
+    });
+
+    const jsonData = {
+      Name: formData.name,
+      Number: formData.phoneNumber,
+      Village: formData.village,
+      BagDetails: bagDetails,
+      'Gross Total Amount': calculateGrossTotalAmount(),
+      Deductions: deductionsData,
+      'Net total Amount': calculateTotalNetAmount()
+    };
+
+    console.log(JSON.stringify(jsonData));
+    fetch('http://localhost:4000/submit', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(jsonData),
+  })
+    .then((response) => {
+      if (response.ok) {
+        console.log('Data submitted successfully');
+      } else {
+        console.error('Failed to submit data');
+      }
+    })
+    .catch((error) => {
+      console.error('Error submitting data:', error);
+    });
+
+
+  };
+
   return (
     <div>
       <h1>Bill</h1>
@@ -218,8 +284,12 @@ const Bill = () => {
       <p>Total Net Amount: {calculateTotalNetAmount()}</p>
 
       <button onClick={handleAddRow}>Add Row</button>
+      
+      <button onClick={handleSubmit}>Submit</button>
     </div>
   );
 };
 
 export default Bill;
+
+
