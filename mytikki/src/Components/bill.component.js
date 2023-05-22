@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Bill = () => {
   const location = useLocation();
   const { formData } = location.state;
   const [deductions, setDeductions] = useState([]);
+  const navigate = useNavigate();
 
   const handleAddRow = () => {
     const newDeduction = {
@@ -68,7 +70,7 @@ const Bill = () => {
   };
 
   const renderDeductionsTable = () => {
-    const deductionOptions = ['Commission', 'Kiray', 'Kaata', 'Others'];
+    const deductionOptions = ['Commission', 'Kharchu', 'Kiray', 'Machu' ,'Others'];
 
     return (
       <table>
@@ -200,26 +202,9 @@ const Bill = () => {
       Deductions: deductionsData,
       'Net total Amount': calculateTotalNetAmount()
     };
-
+    
     console.log(JSON.stringify(jsonData));
-    fetch('http://localhost:4000/submit', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(jsonData),
-  })
-    .then((response) => {
-      if (response.ok) {
-        console.log('Data submitted successfully');
-      } else {
-        console.error('Failed to submit data');
-      }
-    })
-    .catch((error) => {
-      console.error('Error submitting data:', error);
-    });
-
+    //navigate('/billPrint', { state: { jsonData } });
 
   };
 
