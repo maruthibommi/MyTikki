@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 
 const Bill = () => {
   const location = useLocation();
   const { formData } = location.state;
   const [deductions, setDeductions] = useState([]);
-  const navigate = useNavigate();
 
   const handleAddRow = () => {
     const newDeduction = {
@@ -177,6 +175,7 @@ const Bill = () => {
         'Total Bags Cost': Number(bagsCost).toFixed(2),
         'Net Amount': Number(netAmount).toFixed(2)
       };
+      
     });
 
     const deductionsData = deductions.map((deduction) => {
@@ -209,7 +208,7 @@ const Bill = () => {
   };
 
   return (
-    <div>
+    <div >
       <h1>Bill</h1>
       <h2>Customer Details</h2>
       <p>Name: {formData.name}</p>
@@ -223,11 +222,12 @@ const Bill = () => {
             <th>Variety</th>
             <th>Rate Per KG</th>
             <th>Total Bags</th>
-            <th>Per Bag Cost</th>
+            
             <th>Weights</th>
             <th>Gross Weight</th>
             <th>Net Weight</th>
             <th>Gross Amount</th>
+            <th>Per Bag Cost</th>
             <th>Bags Cost</th>
             <th>Net Amount</th>
           </tr>
@@ -246,11 +246,12 @@ const Bill = () => {
                 <td>{bagData.variety}</td>
                 <td>{bagData.ratePerKG}</td>
                 <td>{bagData.bagWeights.length}</td>
-                <td>{bagData.perBagCost}</td>
+                
                 <td>{bagData.bagWeights.join(', ')}</td>
                 <td>{Number(grossWeight).toFixed(2)}</td>
                 <td>{Number(netWeight).toFixed(2)}</td>
                 <td>{Number(grossAmount).toFixed(2)}</td>
+                <td>{bagData.perBagCost}</td>
                 <td>{Number(bagsCost).toFixed(2)}</td>
                 <td>{Number(netAmount).toFixed(2)}</td>
               </tr>

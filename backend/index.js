@@ -1,77 +1,69 @@
+// server.js
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
-
-app.use(express.json());
+app.use(bodyParser.json());
 app.use(cors());
 
-const URI = 'mongodb+srv://yagnaveeranarayan:Yagna@8956@cluster0.kri6pyo.mongodb.net'
-// MongoDB Connection
-const mongoURI = URI; // Use environment variable or replace with your MongoDB URI
-mongoose.connect(mongoURI, {
+// Connect to MongoDB
+mongoose.connect('mongodb://localhost:27017/billDatabase', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-
 const db = mongoose.connection;
-
-// Check for connection errors
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
-// Define your data schema
-const jsonDataSchema = new mongoose.Schema({
-  // Define your schema fields based on the JSON structure
-  name: String,
-  number: String,
-  village: String,
-  bagDetails: [{
-    variety: String,
-    ratePerKG: Number,
-    totalNumberOfBags: Number,
-    weights: [Number],
-    grossWeight: Number,
-    netWeight: Number,
-    perBagCost: Number,
-    totalBagsCost: Number,
-    netAmount: Number,
-  }],
-  grossTotalAmount: Number,
-  deductions: [{
-    type: String,
-    perBag: Boolean,
-    deductionAmount: Number,
-    totalNumberOfBags: Number,
-    totalDeductionAmount: Number,
-  }],
-  netTotalAmount: Number,
+// Define the schema for the bill data
+const billSchema = new mongoose.Schema({
+  Name: String,
+  Number: String,
+  Village: String,
+  BagDetails: [{ /* define the schema for the BagDetails */ }],
+  'Gross Total Amount': Number,
+  Deductions: [{ /* define the schema for the Deductions */ }],
+  'Net total Amount': Number,
 });
 
-// Create the model based on the schema
-const JsonData = mongoose.model('JsonData', jsonDataSchema);
+// Create the bill model
+const BillModel = mongoose.model('Bill', billSchema);
 
-app.post('/submit', (req, res) => {
-  const jsonData = req.body;
-
-  // Create a new document using the model
-  const newData = new JsonData(jsonData);
-
-  // Save the document to the database
-  newData.save()
-    .then(() => {
-      console.log('Data stored successfully');
-      res.sendStatus(200);
-    })
-    .catch((error) => {
-      console.error('Error storing data:', error);
-      res.sendStatus(500);
-    });
+// Save the bill data in the database
+app.post('/bill', async (req, res) => {
+  try {
+    const billData = req.body;
+    const bill = new BillModel(billData);
+    await bill.save();
+    res.status(201).json({ message: 'Bill data saved successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while saving the bill data' });
+  }
 });
 
-app.listen(4000, () => {
-  console.log('Server listening on port 4000');
+// Get bill data based on phone number
+app.get('/bill/:phoneNumber', async (req, res) => {
+  try {
+    const phoneNumber = req.params.phoneNumber;
+    const bill = await BillModel.findOne({ Number: phoneNumber }).exec();
+    if (!bill) {
+      res.status(404).json({ error: 'Bill data not found' });
+    } else {
+      res.status(200).json(bill);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while retrieving the bill data' });
+  }
+});
+
+// Start the server
+const port = 3000;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
