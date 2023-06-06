@@ -9,7 +9,10 @@ app.use(express.json())
 app.use("/",router)
 
 
-mongoose.connect("mongodb+srv://yagnaveeranarayan:Admin8956@cluster0.kri6pyo.mongodb.net/MirchiBills?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://yagnaveeranarayan:Admin8956@cluster0.kri6pyo.mongodb.net/MirchiBills?retryWrites=true&w=majority", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
 .then(()=>{app.listen(5000)})
 .then(()=>{console.log("Connected to mongodb")})
 .catch((err)=>{console.log(err)})

@@ -14,31 +14,19 @@ export const getAllBills = async(req,res,next) => {
 }
 
 export const addNewBill = async(req,res,next) =>{
-    const { name,phoneNumber,Address,billNo }  = req.body
-
-    let currbillno;
-    try {
-        currbillno = await Bill.findOne({billNo})
-
-    } catch (error) {
-        console.log(error)
-    }
-    if(currbillno) {
-        return res.status(400).json({message: "bill No already exists"})
-    }
-    const bill = new Bill({
-        name,
-        phoneNumber,
-        Address,
-        billNo
-    })
+    const data = req.body;
 
     try {
-       await bill.save();
+      // Create a new instance of the Data model
+      const newData = new Bill(data);
+  
+      // Save the data to the database
+      await newData.save();
+  
+      res.json({ message: 'Data saved successfully' });
     } catch (error) {
-        console.log(error)
-        return res.status(400).json({message:"bill not saved"})
+      console.error(error);
+      res.status(500).json({ error: 'Failed to save data' });
     }
-    return res.status(201).json({bill})
 
 }

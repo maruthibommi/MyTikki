@@ -11,14 +11,23 @@ function App() {
   
 
   return (
-    <Router>
-    <Routes>
-      <Route path="/" element={<ContactForm/>} />
-      <Route path="/bill" element={<Bill/>} />
-    </Routes>
+    <div>
+      <div className='heading' >
+        <h1>
+          My APP
+        </h1>
+      </div>
+      
+      <Router>
+          <Routes>
+            <Route path="/" element={<ContactForm/>} />
+            <Route path="/bill" element={<Bill/>} />
+          </Routes>
 
+          
+        </Router>
+    </div>
     
-  </Router>
   );
 }
 
