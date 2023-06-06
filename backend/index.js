@@ -1,6 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import router from './Routers/bill-router.js'
+import cors from 'cors'
 
 const app = express()
 
@@ -13,7 +14,7 @@ mongoose.connect("mongodb+srv://yagnaveeranarayan:Admin8956@cluster0.kri6pyo.mon
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-.then(()=>{app.listen(5000)})
+.then(()=>{app.listen(3001)})
 .then(()=>{console.log("Connected to mongodb")})
 .catch((err)=>{console.log(err)})
 

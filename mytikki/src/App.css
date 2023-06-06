@@ -15,6 +15,28 @@
 .form-container input {
   margin: 0 10px;
 }
+/* Navbar container */
+.navbar {
+  background-color: #333;
+  padding: 10px;
+}
+
+/* Navbar links */
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+}
+
+/* Navbar links on hover */
+.navbar a:hover {
+  background-color: #555;
+}
+
+/* Active link */
+.navbar .active {
+  background-color: #555;
+}
 
 
 h1 {
