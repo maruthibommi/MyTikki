@@ -1,6 +1,6 @@
 import './App.css';
 import '../src/Components/BagWeight.component.js'
-import Bill from './Components/bill.component';
+import PrintBill from './Components/PrintBill.component';
 import HomePage from './Components/homepage.component';
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -20,7 +20,7 @@ function App() {
         <nav className="navbar">
           <a href='/'>Home</a>
           <a href='/contactForm'>NewBill</a>
-          <a href='/bill'>printBill</a>
+          <a href='/printBill'>printBill</a>
         </nav>
       </div>
 
@@ -29,7 +29,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage/>} />
             <Route path="/contactForm" element={<ContactForm/>} />
-            <Route path="/bill" element={<Bill/>} />
+            <Route path="/printBill" element={<PrintBill/>} />
           </Routes>
 
           
